@@ -1,42 +1,33 @@
-import time
-import enum
+class Matrix:
+    def __init__(self, data:list):
+        self.data = data
+
+    def __str__(self):
+        result = []
+        for row in self.data:
+            result.append(' '.join([str(k) for k in row]))
+        return '\n'.join(result)
+
+    def __add__(self, other):
+        if len(self.data) == len(other.data):
+            result = []
+            for i, row in enumerate(self.data):
+                new_list = list(map(lambda x, y: x + y, row, other.data[i]))
+                result.append(new_list)
+            return Matrix(result)
+        else:
+            return
 
 
-class Colour(enum.Enum):
-    RED = 0
-    YELLOW = 1
-    GREEN = 2
 
+list_lists_01 = [[1, 2, 3], [3, 3, 3], [4, 3, 2]]
+list_lists_02 = [[2, 5, 5], [4, 3, 3], [1, 1, 2]]
 
-class TrafficLight:
-    __colour: Colour
-    __move: int = 1
+matrix01 = Matrix(list_lists_01)
+matrix02 = Matrix(list_lists_02)
+matrix03 = matrix01 + matrix02
 
-    def __init__(self, colour: Colour) -> None:
-        self.__colour = colour
-
-    def running(self, green_t=7, red_t=7, yellow_t=2):
-
-        for _ in range(10):
-            if self.__colour == Colour.RED:
-                print(self.__colour.name)
-                time.sleep(red_t)
-            elif self.__colour == Colour.YELLOW:
-                print(self.__colour.name)
-                time.sleep(yellow_t)
-            elif self.__colour == Colour.GREEN:
-                print(self.__colour.name)
-                time.sleep(green_t)
-
-            if self.__colour.value == 2:
-                self.__move = -1
-            elif self.__colour.value == 0:
-                self.__move = 1
-
-            self.__colour = Colour(self.__colour.value + self.__move)
-
-
-if __name__ == "__main__":
-    traffic = TrafficLight(Colour.GREEN)
-    traffic.running()
+print(matrix01, end='\n\n')
+print(matrix02, end='\n\n')
+print(matrix03)
 

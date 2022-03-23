@@ -1,22 +1,37 @@
-class Road:
+from abc import ABC, abstractmethod
 
-    _length: float
-    _width: float
+class Clothes(ABC):
+    def __init__(self, name: str):
+        self.name = name
 
-    def __init__(self, length: float = 0, width: float = 0) -> None:
-        self._length = length
-        self._width = width
+    @abstractmethod
+    def fabric_consumption(self):
+        pass
 
-    def calc(self, density: float, thickness: float) -> float:
-        return self._length * self._width * density * thickness
+class Coat(Clothes):
+    def __init__(self, name: str, size: int):
+        self.size = size
+        super().__init__(name)
+
+    @property
+    def fabric_consumption(self):
+        return round(self.size / 6.5 + 0.5, 2)
 
 
-if __name__ == "__main__":
-    road = Road(length=20, width=5000)
-    print(road.calc(25, 5))
+class Suit(Clothes):
+    def __init__(self, name: str, height: int):
+        self.height = height
+        super().__init__(name)
 
-    road = Road()
-    road._length = 20
-    road._width = 5000
-    print(road.calc(density=25, thickness=5))
+    @property
+    def fabric_consumption(self):
+        return round(2 * self.height + 0.3, 2)
+
+
+if __name__ == '__main__':
+    green_coat = Coat('Черное пальто, весна 2022', 56)
+    yellow_suit = Suit('Красный костюм', 45)
+    print(green_coat.fabric_consumption)
+    print(yellow_suit.fabric_consumption)
+
 
